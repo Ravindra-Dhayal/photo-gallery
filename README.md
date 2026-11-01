@@ -1,16 +1,79 @@
-# React + Vite
+# Photo Gallery
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple photo gallery web app built with **React**, **Vite** and **Tailwind CSS**. It fetches photos from the [Picsum Photos API](https://picsum.photos/), shows them in a responsive grid, lets you search by author name, and lets you mark photos as favourites.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Fetches 30 photos from `https://picsum.photos/v2/list?limit=30` on load
+- Loading spinner while fetching, and an error message if the fetch fails
+- Responsive grid: 4 columns on desktop, 2 on tablet, 1 on mobile
+- Real-time search by author name (filters already-fetched data, no extra API calls)
+- Favourite photos with a heart button, saved in `localStorage` so they persist across refreshes
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React (functional components and hooks only)
+- Vite
+- Tailwind CSS (no other UI libraries)
 
-## Expanding the ESLint configuration
+## React Concepts Used
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+| Concept | Where | Why |
+| --- | --- | --- |
+| Custom hook `useFetchPhotos` | `src/hooks/useFetchPhotos.js` | Keeps fetch logic separate from UI; returns `photos`, `loading`, `error` |
+| `useReducer` | `src/reducers/favouritesReducer.js` | Manages the favourites list through a `TOGGLE_FAVOURITE` action |
+| `useMemo` | `src/components/Gallery.jsx` | Recomputes the filtered list only when `photos` or the search query change |
+| `useCallback` | `src/components/Gallery.jsx` | Keeps the search and toggle handlers stable between renders |
+| `localStorage` | `src/components/Gallery.jsx` | Saves favourites on change and loads them on first render |
+
+## Project Structure
+
+```
+src/
+  components/
+    Gallery.jsx
+    PhotoCard.jsx
+  hooks/
+    useFetchPhotos.js
+  reducers/
+    favouritesReducer.js
+  App.jsx
+  main.jsx
+  index.css
+```
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18 or higher
+- npm
+
+### Run locally
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/<your-username>/photo-gallery.git
+
+# 2. Go into the project folder
+cd photo-gallery
+
+# 3. Install dependencies
+npm install
+
+# 4. Start the dev server
+npm run dev
+```
+
+Then open the URL shown in the terminal (usually http://localhost:5173).
+
+### Build for production
+
+```bash
+npm run build
+npm run preview
+```
+
+## Author
+
+Ravindra Dhayal
